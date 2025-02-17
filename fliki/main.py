@@ -12,7 +12,7 @@ import pyperclip
 import re
 
 # Discord setup
-DISCORD_TOKEN = "MTMzOTkxNDg2MzcxOTM1MDI3Mg.GtqdfF.-TNcb2KiK4sQDqaYWtrqqA2PXVLAM0XsLjc4Fw"
+DISCORD_TOKEN = "your discord token"
 CHANNEL_ID = 1339913139096916010
 
 # Setup all required intents
