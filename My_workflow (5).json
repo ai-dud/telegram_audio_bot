@@ -1,0 +1,844 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=🎼 Creating your song... This might take atleast  ⏳",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "name": "Telegram12",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        -1280,
+        -460
+      ],
+      "id": "86cf7e60-e2cf-47d0-90ea-1d177fd2bee7",
+      "webhookId": "3c3dbc53-cfc2-490f-ae18-365021be5178",
+      "credentials": {
+        "telegramApi": {
+          "id": "p09lVahCOGeKcads",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/start",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "start"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "71fd8e28-d95e-4272-bf21-342bc5edceb4",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "={{ $json.message.text }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text/prompt"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1580,
+        -540
+      ],
+      "id": "035c7ac9-8734-44bf-a982-bbd9d808d9e7",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=🎵 Welcome to [Music Bot]! 🎶\nI am your AI-powered music creator. Just type /lyrics and I'll turn your words into a song with music in MP3 format. Let the magic begin! ✨",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "name": "Telegram13",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        -1280,
+        -680
+      ],
+      "id": "1040ec94-fec1-4f2b-9160-62194e12e060",
+      "webhookId": "3c3dbc53-cfc2-490f-ae18-365021be5178",
+      "credentials": {
+        "telegramApi": {
+          "id": "p09lVahCOGeKcads",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAudio",
+        "chatId": "={{ $('Telegram12').item.json.result.chat.id }}",
+        "file": "={{ $('HTTP Request').item.json.data[0].audio_file }}",
+        "additionalFields": {}
+      },
+      "name": "Send Music",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        460,
+        -460
+      ],
+      "id": "436eb739-be0d-438f-b67b-41f35c6f358d",
+      "webhookId": "ed74beaa-6a69-44f5-b4e7-dee560c6f332",
+      "credentials": {
+        "telegramApi": {
+          "id": "p09lVahCOGeKcads",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1740,
+        -540
+      ],
+      "webhookId": "your-webhook-id",
+      "id": "0f1f220b-4193-47a2-a4f0-01fab2a2b815",
+      "credentials": {
+        "telegramApi": {
+          "id": "p09lVahCOGeKcads",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1339913138547724381",
+          "mode": "list",
+          "cachedResultName": "n8n to d and d to code email",
+          "cachedResultUrl": "https://discord.com/channels/1339913138547724381"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1339913139096916010",
+          "mode": "list",
+          "cachedResultName": "general",
+          "cachedResultUrl": "https://discord.com/channels/1339913138547724381/1339913139096916010"
+        },
+        "content": "hello",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        600,
+        -460
+      ],
+      "id": "19e7b4ec-31aa-4d54-a1a3-5adeadc8507b",
+      "name": "Discord2",
+      "credentials": {
+        "discordBotApi": {
+          "id": "arDvBYmNJUsdlcQF",
+          "name": "Discord Bot account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "getAll",
+        "guildId": {
+          "__rl": true,
+          "value": "1339913138547724381",
+          "mode": "list",
+          "cachedResultName": "n8n to d and d to code email",
+          "cachedResultUrl": "https://discord.com/channels/1339913138547724381"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1339913139096916010",
+          "mode": "list",
+          "cachedResultName": "general",
+          "cachedResultUrl": "https://discord.com/channels/1339913138547724381/1339913139096916010"
+        },
+        "limit": 8,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        880,
+        -460
+      ],
+      "id": "2e8ea045-931f-431d-9c40-f4498a662188",
+      "name": "Discord1",
+      "credentials": {
+        "discordBotApi": {
+          "id": "arDvBYmNJUsdlcQF",
+          "name": "Discord Bot account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e6fb8aa3-84fd-41e7-a1fe-522c8474844e",
+              "name": "=code",
+              "value": "={{ $json.content.match(/Your verification code is:\\s*(\\d+)/)[1] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1020,
+        -460
+      ],
+      "id": "b6feff60-8682-4318-911a-f24dee12ae29",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1339913138547724381",
+          "mode": "list",
+          "cachedResultName": "n8n to d and d to code email",
+          "cachedResultUrl": "https://discord.com/channels/1339913138547724381"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1339913139096916010",
+          "mode": "list",
+          "cachedResultName": "general",
+          "cachedResultUrl": "https://discord.com/channels/1339913138547724381/1339913139096916010"
+        },
+        "content": "={{ $json.code }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1180,
+        -460
+      ],
+      "id": "99f5740e-6b7f-4bcf-bb7d-eee2151cd784",
+      "name": "Discord3",
+      "credentials": {
+        "discordBotApi": {
+          "id": "arDvBYmNJUsdlcQF",
+          "name": "Discord Bot account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 45
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        740,
+        -460
+      ],
+      "id": "bbc2151a-7e4b-43f1-afdc-539ce43af851",
+      "name": "Wait1",
+      "webhookId": "3c9148e4-f42f-432d-98bb-0bcc6a85cdfe"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "getAll",
+        "guildId": {
+          "__rl": true,
+          "value": "1339913138547724381",
+          "mode": "list",
+          "cachedResultName": "n8n to d and d to code email",
+          "cachedResultUrl": "https://discord.com/channels/1339913138547724381"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1339913139096916010",
+          "mode": "list",
+          "cachedResultName": "general",
+          "cachedResultUrl": "https://discord.com/channels/1339913138547724381/1339913139096916010"
+        },
+        "limit": 5,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -580,
+        -460
+      ],
+      "id": "a3049441-8cd5-4533-b91d-275ff0b3a228",
+      "name": "take api key1",
+      "credentials": {
+        "discordBotApi": {
+          "id": "arDvBYmNJUsdlcQF",
+          "name": "Discord Bot account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.content }}",
+                    "rightValue": "=API Key",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -440,
+        -460
+      ],
+      "id": "e8b80a07-0bc6-453b-b5f3-3e385f3c277a",
+      "name": "Switch6"
+    },
+    {
+      "parameters": {
+        "operation": "deleteMessage",
+        "chatId": "={{ $('Telegram12').item.json.result.chat.id }}",
+        "messageId": "={{ $json.result.message_id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        320,
+        -460
+      ],
+      "id": "4822e688-165a-4679-adb1-a4cdb51d65e0",
+      "name": "Telegram1",
+      "webhookId": "02523d22-8cb1-4b49-8dea-e1203a9347ad",
+      "credentials": {
+        "telegramApi": {
+          "id": "p09lVahCOGeKcads",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.topmediai.com/v1/music",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "={{ $json['api key'] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "is_auto",
+              "value": 1
+            },
+            {
+              "name": "lyrics",
+              "value": "={{ $('Edit Fields').item.json.output }}"
+            },
+            {
+              "name": "prompt",
+              "value": "={{ $('Telegram Trigger').item.json.message.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -120,
+        -460
+      ],
+      "id": "822755e4-6a84-4dcd-9e27-4f518ecc5c2e",
+      "name": "music generator"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1120,
+        -220
+      ],
+      "id": "039ace31-72dc-4743-9c9c-da0ed4db1b76",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "JCMW3A109Nh1ybHo",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Telegram Trigger').item.json.message.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=gar user '/lyrics' ke baad directly lyrics likhta hai Hinglish mein, to usko waise hi rehne do, koi change mat karo. Agar '/lyrics' nhi likhta hai aur koi theme likhta hai (jaise Party, Romantic, Sad, Motivational, ya koi bhi doosra theme), to us theme ke base pe ek 4-minute ka catchy aur rhythmic Hinglish song lyrics generate karo. Lyrics sirf plain text mein hone chahiye, koi headings (Verse, Chorus, Bridge, Outro) nahi hone chahiye."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -1100,
+        -460
+      ],
+      "id": "e3ce8b51-8761-4115-9b40-c10efbd6357e",
+      "name": "AI Agent1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "315501a4-4695-4f24-82ad-882d35e98a49",
+              "name": "=output",
+              "value": "={{ $json.output.replace(/\\(Verse 1\\)/g, '').replace(/\\(Chorus\\)/g, '').replace(/\\n/g, ' ') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -760,
+        -460
+      ],
+      "id": "2c91750a-2753-42f8-8d39-b523129325c3",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e971e5cf-7534-431b-acc6-7a8e9adc9df6",
+              "name": "=api key",
+              "value": "={{ $json.content.split(': ')[1] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -280,
+        -460
+      ],
+      "id": "b1aa467b-229c-4497-a393-93d9d7722dd1",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "operation": "editMessageText",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "messageId": "={{ $('Telegram12').item.json.result.message_id }}",
+        "text": "=sending audio....",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "name": "Telegram18",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        180,
+        -460
+      ],
+      "id": "64b2f113-eb87-40cc-8a95-bfd50d78bc18",
+      "webhookId": "3c3dbc53-cfc2-490f-ae18-365021be5178",
+      "credentials": {
+        "telegramApi": {
+          "id": "p09lVahCOGeKcads",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.data[0].audio_file }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        40,
+        -460
+      ],
+      "id": "cf77102c-de0b-4ce2-83a2-8d8f5cfe75cc",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram12": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Telegram13",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Music": {
+      "main": [
+        [
+          {
+            "node": "Discord2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram13": {
+      "main": [
+        []
+      ]
+    },
+    "Discord1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Discord3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord2": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord3": {
+      "main": [
+        []
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Discord1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "take api key1": {
+      "main": [
+        [
+          {
+            "node": "Switch6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch6": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram1": {
+      "main": [
+        [
+          {
+            "node": "Send Music",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "music generator": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "take api key1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "music generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram18": {
+      "main": [
+        [
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "Telegram8",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram7",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram6",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram5",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Telegram18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a00b9f8f-9ec4-4814-9491-8470d68b0adc",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ca145315c9f30c4bfe4fe457ddb9ec16cc7b09848f7a715f8d918422b73efbe9"
+  },
+  "id": "mQ62QS4Jv9B8HZ1Z",
+  "tags": []
+}
